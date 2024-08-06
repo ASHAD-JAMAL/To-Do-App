@@ -20,24 +20,38 @@ function App() {
     setAllTodos(updatedTodoArr);
     localStorage.setItem("todolist", JSON.stringify(updatedTodoArr));
   };
+
+
+  //Delete list from Todo Arr
   const handleDeleteTodo = (index) => {
     let reduceTodo = [...allTodos];
-    reduceTodo.splice(index);
+    reduceTodo.splice(index,1);
 
     localStorage.setItem("todolist", JSON.stringify(reduceTodo));
     setAllTodos(reduceTodo);
   };
 
+  //Delete list from CompleteTodo Arr
+  const handleDeletCompletedeTodo =(index)=>{
+    let reduceCompleteTodo=  [...completeTodos];
+    reduceCompleteTodo.splice(index,1);
+
+    localStorage.setItem("completeTodos",JSON.stringify(reduceCompleteTodo));
+    setCompleteTodos(reduceCompleteTodo);
+  }
+
+
+  //handle todo list which are store in completed section from todo array with date & Time
   const handleComplete = (index) => {
     let now = new Date();
     let dd = now.getDate();
     let mm = now.getMonth() + 1;
-    let yyy = now.getFullYear();
+    let yyyy = now.getFullYear();
     let h = now.getHours();
     let m = now.getMinutes();
     let s = now.getSeconds();
 
-    let completedOn = dd + "-" + mm + "-" + yyy + "at" + h + ":" + m + ":" + s;
+    let completedOn = dd + "-" + mm + "-" + yyyy + "at" + h + ":" + m + ":" + s;
 
     let filteredItem = {
       ...allTodos[index],
@@ -47,13 +61,22 @@ function App() {
     updatedCompletedArr.push(filteredItem);
     setCompleteTodos(updatedCompletedArr);
     handleDeleteTodo(index);
+    localStorage.setItem("completedTodos",JSON.stringify(updatedCompletedArr))
   };
+
+  // here i use hook useEffect for perform side effects in functional components
   useEffect(() => {
     let savedTodo = JSON.parse(localStorage.getItem("todolist"));
+    let savedCompletedTodo = JSON.parse(localStorage.getItem('completedTodos'));
     if (savedTodo) {
       setAllTodos(savedTodo);
     }
+    if(savedCompletedTodo){
+      setCompleteTodos(savedCompletedTodo);
+    }
   }, []);
+
+
   return (
     <div className="App">
       <h1>My Todo App</h1>
@@ -136,7 +159,7 @@ function App() {
                   <AiOutlineDelete
                     className="icon"
                     title="Delete"
-                    onClick={() => handleDeleteTodo(index)}
+                    onClick={() => handleDeletCompletedeTodo(index)}
                   />
                 </div>
               </div>

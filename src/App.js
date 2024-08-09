@@ -84,27 +84,25 @@ function App() {
   };
 
   const handleUpdateTitle = (value) => {
-    setCurrentEditedItem((prev)=>{
-      return {...prev,title:value}
-    })
+    setCurrentEditedItem((prev) => {
+      return { ...prev, title: value };
+    });
   };
 
   const handleUpdateDescription = (value) => {
-    setCurrentEditedItem((prev)=>{
-      return {...prev,description:value}
-    })
+    setCurrentEditedItem((prev) => {
+      return { ...prev, description: value };
+    });
   };
 
-
-  const handleUpdateTodo = () =>{
+  const handleUpdateTodo = () => {
     let newTodo = [...allTodos];
     newTodo[currentEdit] = currentEditedItem;
     setAllTodos(newTodo);
     setCurrentEdit("");
   };
 
-
-  return (  
+  return (
     <div className="App">
       <h1>My Todo App</h1>
       <div className="todo-wrapper">
